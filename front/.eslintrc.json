@@ -1,0 +1,149 @@
+{
+    "env": {
+        "browser": true,
+        "es2022": true,
+        "jest/globals": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:react/recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:react-hooks/recommended",
+        "standard-with-typescript",
+        "plugin:jest/recommended",
+        "prettier"
+    ],
+    "overrides": [
+        {
+            "files": [
+                "*.tsx"
+            ],
+            "rules": {
+                "react/prop-types": "off"
+            }
+        },
+        {
+            "files": [
+                "src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+                "src/**/*.{test,spec}.{js,jsx,ts,tsx}"
+            ],
+            "env": {
+                "jest/globals": true
+            },
+            "extends": [
+                "plugin:jest/recommended",
+                "plugin:jest/style"
+            ],
+            "plugins": [
+                "jest"
+            ]
+        }
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "tsconfigRootDir": ".",
+        "project": [
+            "./tsconfig.json"
+        ],
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "jest",
+        "jsx-a11y",
+        "react-hooks",
+        "react"
+    ],
+    "rules": {
+        "padding-line-between-statements": [
+            "error",
+            {
+                "blankLine": "always",
+                "prev": "*",
+                "next": "return"
+            }
+        ],
+        "@typescript-eslint/consistent-type-definitions": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": [
+            "error"
+        ],
+        "@typescript-eslint/no-misused-promises": [
+            "error",
+            {
+                "checkVoidReturn": false
+            }
+        ],
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_"
+            }
+        ],
+        "@typescript-eslint/triple-slash-reference": [
+            "error",
+            {
+                "types": "always"
+            }
+        ],
+        "import/extensions": [
+            "error",
+            {
+                "ignorePackages": true,
+                "pattern": {
+                    "js": "never",
+                    "jsx": "never",
+                    "ts": "never",
+                    "tsx": "never"
+                }
+            }
+        ],
+        "import/order": [
+            "error",
+            {
+                "groups": [
+                    "builtin",
+                    "external",
+                    "internal",
+                    "parent",
+                    "sibling",
+                    "object",
+                    "index"
+                ],
+                "pathGroups": [
+                    {
+                        "pattern": "{react,react-dom/**}",
+                        "group": "builtin",
+                        "position": "before"
+                    },
+                    {
+                        "pattern": "{[A-Z]*, **/[A-Z]*}",
+                        "group": "index",
+                        "position": "after"
+                    },
+                    {
+                        "pattern": "./**.modules.css",
+                        "group": "index",
+                        "position": "after"
+                    }
+                ],
+                "pathGroupsExcludedImportTypes": [
+                    "builtin"
+                ],
+                "alphabetize": {
+                    "order": "asc"
+                }
+            }
+        ],
+        "react/display-name": "off"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}
