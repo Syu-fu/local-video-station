@@ -1,0 +1,70 @@
+version: "3"
+services:
+  front:
+    build:
+      context: .
+      dockerfile: ./docker/front/Dockerfile
+    tty: true
+    volumes:
+      - ./front:/app
+    command: sh -c "cd /app && npm i && npm run dev"
+    ports:
+      - ${FRONT_PORT}:5173
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    volumes:
+      - ./api:/app
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - ${API_PORT}:8080
+  db:
+    build:
+      context: .
+      dockerfile: ./docker/db/Dockerfile
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: local_video_station
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./data/mysql/data:/var/lib/mysql
+      - ./data/mysql/sql:/docker-entrypoint-initdb.d
+    ports:
+      - ${DB_PORT}:3306
+    links:
+      - api
+  minio:
+    build:
+      context: .
+      dockerfile: ./docker/minio/Dockerfile
+    ports:
+      - ${MINIO_PORT}:9000
+      - ${MINIO_CONSOLE_PORT}:9001
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASS}
+    entrypoint: sh
+    command: -c "/opt/bin/minio server /export --address :9000 --console-address :9001"
+    volumes:
+      - ./data/minio:/export
+  minio-init:
+    image: minio/mc
+    depends_on:
+      - minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASS}
+    entrypoint: >
+      /bin/sh -c "
+          mc alias set myminio http://minio:${MINIO_PORT} ${MINIO_ROOT_USER} ${MINIO_ROOT_PASS};
+          mc mb myminio/data;
+          mc anonymous set public myminio/data;
+          exit 0;
+          "
