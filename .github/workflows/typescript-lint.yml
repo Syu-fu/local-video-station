@@ -1,0 +1,20 @@
+name: typescript-lint
+on:
+  pull_request:
+jobs:
+  typescriptci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./front
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "19"
+      - name: install
+        run: npm install
+      - name: ESLint
+        run: npm run lint
+      - name: Prettier
+        run: npm run format
