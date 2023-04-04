@@ -17,6 +17,7 @@ func NewRouter(db *sql.DB) *echo.Echo {
 
 	e.GET("/video/list", aCon.VideoListHandler)
 
+	e.Use(middleware.CORS())
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "time=${time_rfc3339_nano}, method=${method}, uri=${uri}, status=${status}\n",
 	}))
