@@ -21,3 +21,16 @@ func TestSelectVideoList(t *testing.T) {
 		t.Errorf("want %d but got %d videos\n", expectedNum, num)
 	}
 }
+
+func TestSelectVideoCount(t *testing.T) {
+	expectedNum := len(testdata.VideoTestData1)
+
+	got, err := repositories.SelectVideoCount(testDB)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if num := got; num != expectedNum {
+		t.Errorf("want %d but got %d videos\n", expectedNum, num)
+	}
+}
