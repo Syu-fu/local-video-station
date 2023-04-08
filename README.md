@@ -14,3 +14,16 @@ This program depends on the following:
 
 - Docker compose version 3 or higher
 - make
+
+# Frontend
+
+| Endpoint | Method | Description                   |
+| -------- | ------ | ----------------------------- |
+| /list    | GET    | Displays the video list page. |
+
+# API Endpoints
+
+| Endpoint                  | Method | Description                                      |
+| ------------------------- | ------ | ------------------------------------------------ |
+| /video/list?page={number} | GET    | Returns a list of videos for the specified page. |
+| /video/count              | GET    | Returns the total number of videos.              |

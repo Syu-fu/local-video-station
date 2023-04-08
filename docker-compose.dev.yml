@@ -8,6 +8,9 @@ services:
     volumes:
       - ./front:/app
     command: sh -c "cd /app && npm i && npm run dev"
+    environment:
+      - VITE_API_PORT=${API_PORT}
+      - VITE_IPADDRESS=${IPADDRESS}
     ports:
       - ${FRONT_PORT}:5173
   api:
@@ -19,6 +22,7 @@ services:
     environment:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      API_PORT: ${API_PORT}
     ports:
       - ${API_PORT}:8080
   db:

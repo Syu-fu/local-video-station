@@ -22,7 +22,15 @@
                 "*.tsx"
             ],
             "rules": {
-                "react/prop-types": "off"
+                "react/prop-types": "off",
+                "react/no-unknown-property": [
+                    "error",
+                    {
+                        "ignore": [
+                            "css"
+                        ]
+                    }
+                ]
             }
         },
         {
@@ -35,10 +43,14 @@
             },
             "extends": [
                 "plugin:jest/recommended",
-                "plugin:jest/style"
+                "plugin:jest/style",
+                "plugin:jest-dom/recommended",
+                "plugin:testing-library/react"
             ],
             "plugins": [
-                "jest"
+                "jest",
+                "jest-dom",
+                "testing-library"
             ]
         }
     ],
