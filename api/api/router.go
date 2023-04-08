@@ -16,6 +16,7 @@ func NewRouter(db *sql.DB) *echo.Echo {
 	e := echo.New()
 
 	e.GET("/video/list", aCon.VideoListHandler)
+	e.GET("/video/count", aCon.VideoCountHandler)
 
 	e.Use(middleware.CORS())
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{

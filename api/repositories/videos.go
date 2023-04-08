@@ -43,3 +43,23 @@ func SelectVideoList(db *sql.DB, page int) ([]models.Video, error) {
 
 	return videoArray, nil
 }
+
+func SelectVideoCount(db *sql.DB) (int, error) {
+	const sqlStr = `
+		select count(1)
+		from video
+		;
+	`
+
+	row := db.QueryRow(sqlStr)
+	if err := row.Err(); err != nil {
+		return 0, row.Err()
+	}
+
+	var rowCount int
+	if err := row.Scan(&rowCount); err != nil {
+		return 0, err
+	}
+
+	return rowCount, nil
+}

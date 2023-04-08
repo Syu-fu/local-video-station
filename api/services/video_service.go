@@ -22,3 +22,14 @@ func (s *MyAppService) GetVideoListService(page int) ([]models.Video, error) {
 
 	return videoList, nil
 }
+
+func (s *MyAppService) GetVideoCountService() (int, error) {
+	videoCount, err := repositories.SelectVideoCount(s.db)
+	if err != nil {
+		err = apperrors.GetDataFailed.Wrap(err, "fail to get data")
+
+		return 0, err
+	}
+
+	return videoCount, nil
+}

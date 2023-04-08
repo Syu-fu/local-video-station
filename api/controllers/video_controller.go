@@ -33,3 +33,18 @@ func (c *VideoController) VideoListHandler(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, videoList)
 }
+
+func (c *VideoController) VideoCountHandler(ctx echo.Context) error {
+	count, err := c.service.GetVideoCountService()
+	if err != nil {
+		return apperrors.ErrorHandler(ctx, err)
+	}
+
+	response := struct {
+		Count int `json:"count"`
+	}{
+		Count: count,
+	}
+
+	return ctx.JSON(http.StatusOK, response)
+}
