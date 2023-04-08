@@ -9,7 +9,8 @@
         "preview": "vite preview",
         "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
         "fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
-        "format": "npx prettier --write --loglevel=warn 'src/**/*.{js,jsx,ts,tsx}'"
+        "format": "npx prettier --write --loglevel=warn 'src/**/*.{js,jsx,ts,tsx}'",
+        "test": "npx vitest"
     },
     "dependencies": {
         "@emotion/css": "^11.10.6",
@@ -25,10 +26,15 @@
     },
     "devDependencies": {
         "@emotion/babel-plugin": "^11.10.6",
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^14.0.0",
+        "@testing-library/user-event": "^14.4.3",
         "@types/eslint": "^8.37.0",
+        "@types/jest": "^29.5.0",
         "@types/prettier": "^2.7.2",
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.11",
+        "@types/testing-library__jest-dom": "^5.14.5",
         "@typescript-eslint/eslint-plugin": "^5.55.0",
         "@vitejs/plugin-react": "^3.1.0",
         "eslint": "^8.36.0",
@@ -36,14 +42,20 @@
         "eslint-config-standard-with-typescript": "^34.0.1",
         "eslint-plugin-import": "^2.27.5",
         "eslint-plugin-jest": "^27.2.1",
+        "eslint-plugin-jest-dom": "^4.0.3",
         "eslint-plugin-jsx-a11y": "^6.7.1",
         "eslint-plugin-n": "^15.6.1",
         "eslint-plugin-promise": "^6.1.1",
         "eslint-plugin-react": "^7.32.2",
         "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-testing-library": "^5.10.2",
+        "jest-environment-jsdom": "^29.5.0",
+        "msw": "^1.2.1",
         "prettier": "^2.8.4",
+        "ts-jest": "^29.1.0",
         "typescript": "^5.0.2",
         "vite": "^4.2.0",
-        "vite-tsconfig-paths": "^4.0.7"
+        "vite-tsconfig-paths": "^4.0.7",
+        "vitest": "^0.29.8"
     }
 }
