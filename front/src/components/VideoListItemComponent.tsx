@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import { Link } from 'react-router-dom';
 import type Video from '../types/video';
 
 interface Props {
@@ -9,14 +10,16 @@ interface Props {
 
 const VideoListItemComponent: FC<Props> = ({ video }) => {
   return (
-    <StyledCard>
-      <StyledCardMedia image={video.thumbnailUrl} />
-      <CardContent>
-        <Typography variant="subtitle1" gutterBottom>
-          {video.title}
-        </Typography>
-      </CardContent>
-    </StyledCard>
+    <Link to={`/video/${video.id}`}>
+      <StyledCard>
+        <StyledCardMedia image={video.thumbnailUrl} />
+        <CardContent>
+          <Typography variant="subtitle1" gutterBottom>
+            {video.title}
+          </Typography>
+        </CardContent>
+      </StyledCard>
+    </Link>
   );
 };
 
