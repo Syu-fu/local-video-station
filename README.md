@@ -17,13 +17,15 @@ This program depends on the following:
 
 # Frontend
 
-| Endpoint | Method | Description                   |
-| -------- | ------ | ----------------------------- |
-| /list    | GET    | Displays the video list page. |
+| Endpoint    | Method | Description                                              |
+| ----------- | ------ | -------------------------------------------------------- |
+| /list       | GET    | Displays the video list page.                            |
+| /video/{id} | GET    | Displays the video player page with the specified video. |
 
 # API Endpoints
 
-| Endpoint                  | Method | Description                                      |
-| ------------------------- | ------ | ------------------------------------------------ |
-| /video/list?page={number} | GET    | Returns a list of videos for the specified page. |
-| /video/count              | GET    | Returns the total number of videos.              |
+| Endpoint                  | Method | Description                                             |
+| ------------------------- | ------ | ------------------------------------------------------- |
+| /video/list?page={number} | GET    | Returns a list of videos for the specified page.        |
+| /video/count              | GET    | Returns the total number of videos.                     |
+| /video/{id}               | GET    | Returns detailed information about the specified video. |

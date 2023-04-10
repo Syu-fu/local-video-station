@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -47,4 +48,16 @@ func (c *VideoController) VideoCountHandler(ctx echo.Context) error {
 	}
 
 	return ctx.JSON(http.StatusOK, response)
+}
+
+func (c *VideoController) VideoDetailHandler(ctx echo.Context) error {
+	videoID := ctx.Param("id")
+	log.Println("ID:" + videoID)
+
+	video, err := c.service.GetVideoService(videoID)
+	if err != nil {
+		return apperrors.ErrorHandler(ctx, err)
+	}
+
+	return ctx.JSON(http.StatusOK, video)
 }

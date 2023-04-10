@@ -63,3 +63,25 @@ func SelectVideoCount(db *sql.DB) (int, error) {
 
 	return rowCount, nil
 }
+
+func SelectVideoDetail(db *sql.DB, id string) (models.Video, error) {
+	const sqlStr = `
+		select id, title, title_reading, url, thumbnail_url
+		from video
+		where id = ?
+		;
+	`
+
+	row := db.QueryRow(sqlStr, id)
+	if err := row.Err(); err != nil {
+		return models.Video{}, err
+	}
+
+	var video models.Video
+
+	if err := row.Scan(&video.ID, &video.Title, &video.TitleReading, &video.Url, &video.ThumbnailUrl); err != nil {
+		return models.Video{}, err
+	}
+
+	return video, nil
+}

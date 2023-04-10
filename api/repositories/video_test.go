@@ -1,6 +1,7 @@
 package repositories_test
 
 import (
+	"reflect"
 	"testing"
 
 	"api/repositories"
@@ -32,5 +33,16 @@ func TestSelectVideoCount(t *testing.T) {
 
 	if num := got; num != expectedNum {
 		t.Errorf("want %d but got %d videos\n", expectedNum, num)
+	}
+}
+
+func TestSelectVideoDetail(t *testing.T) {
+	got, err := repositories.SelectVideoDetail(testDB, testdata.VideoTestData1[0].ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !reflect.DeepEqual(testdata.VideoTestData1[0], got) {
+		t.Errorf("want %v(%T) but got %v(%T) videos\n", testdata.VideoTestData1[0], testdata.VideoTestData1[0], got, got)
 	}
 }
