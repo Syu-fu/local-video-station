@@ -39,3 +39,18 @@ func SelectTagList(db *sql.DB, videoID string) ([]models.Tag, error) {
 
 	return tagArray, nil
 }
+
+func InsertTag(db *sql.DB, tag models.Tag) (models.Tag, error) {
+	const sqlStr = `
+	insert into tag (id, name, name_reading) values
+	(?, ?, ?)
+	;
+	`
+
+	_, err := db.Exec(sqlStr, tag.ID, tag.Name, tag.NameReading)
+	if err != nil {
+		return models.Tag{}, err
+	}
+
+	return tag, nil
+}
