@@ -86,7 +86,7 @@
         "@typescript-eslint/no-misused-promises": [
             "error",
             {
-                "checkVoidReturn": false
+                "checksVoidReturn": false
             }
         ],
         "@typescript-eslint/no-unused-vars": [

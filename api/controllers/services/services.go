@@ -7,3 +7,7 @@ type VideoServicer interface {
 	GetVideoCountService() (int, error)
 	GetVideoService(videoID string) (models.Video, error)
 }
+
+type TagServicer interface {
+	PostTagService(tag models.Tag) (models.Tag, error)
+}
