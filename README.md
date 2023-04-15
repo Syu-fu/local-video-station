@@ -17,10 +17,11 @@ This program depends on the following:
 
 # Frontend
 
-| Endpoint    | Method | Description                                              |
-| ----------- | ------ | -------------------------------------------------------- |
-| /list       | GET    | Displays the video list page.                            |
-| /video/{id} | GET    | Displays the video player page with the specified video. |
+| Endpoint    | Description                                              |
+| ----------- | -------------------------------------------------------- |
+| /list       | Displays the video list page.                            |
+| /video/{id} | Displays the video player page with the specified video. |
+| /tag        | Displays the tag creation page.                          |
 
 # API Endpoints
 
@@ -29,3 +30,4 @@ This program depends on the following:
 | /video/list?page={number} | GET    | Returns a list of videos for the specified page.        |
 | /video/count              | GET    | Returns the total number of videos.                     |
 | /video/{id}               | GET    | Returns detailed information about the specified video. |
+| /tag                      | POST   | Creates a new tag.                                      |
