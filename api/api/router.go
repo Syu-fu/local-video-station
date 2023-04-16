@@ -8,10 +8,11 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/minio/minio-go/v7"
 )
 
-func NewRouter(db *sql.DB) *echo.Echo {
-	ser := services.NewMyAppService(db)
+func NewRouter(db *sql.DB, mc *minio.Client) *echo.Echo {
+	ser := services.NewMyAppService(db, mc)
 	aCon := controllers.NewVideoController(ser)
 	tCon := controllers.NewTagController(ser)
 	e := echo.New()
@@ -19,7 +20,9 @@ func NewRouter(db *sql.DB) *echo.Echo {
 	e.GET("/video/list", aCon.VideoListHandler)
 	e.GET("/video/count", aCon.VideoCountHandler)
 	e.GET("/video/:id", aCon.VideoDetailHandler)
+	e.POST("/video", aCon.PostVideoHandler)
 
+	e.GET("/tag/list", tCon.TagListHandler)
 	e.POST("/tag", tCon.PostTagHandler)
 
 	e.Use(middleware.CORS())
