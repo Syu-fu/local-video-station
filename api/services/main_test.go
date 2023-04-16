@@ -11,6 +11,7 @@ import (
 
 	"api/services"
 
+	"github.com/minio/minio-go/v7"
 	"github.com/ory/dockertest/v3"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -19,6 +20,7 @@ import (
 var (
 	pool       *dockertest.Pool
 	testDB     *sql.DB
+	mc         *minio.Client
 	dbResource *dockertest.Resource
 )
 
@@ -55,6 +57,9 @@ func setup() error {
 		return err
 	}
 
+	os.Setenv("IPADDRESS", "localhost")
+	os.Setenv("MINIO_PORT", "9000")
+
 	return nil
 }
 
@@ -90,7 +95,7 @@ func connectDB() error {
 		if err != nil {
 			return err
 		}
-		aSer = services.NewMyAppService(testDB)
+		aSer = services.NewMyAppService(testDB, mc)
 
 		return testDB.Ping()
 	}); err != nil {

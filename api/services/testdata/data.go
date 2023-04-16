@@ -7,8 +7,8 @@ var VideoTestData = []models.Video{
 		ID:           "3C6FC606-3DC8-4EE5-AFC0-D6C20DE47AE4",
 		Title:        "How to Make Sushi",
 		TitleReading: "How to Make Sushi",
-		Url:          "https://example.com/how-to-make-sushi",
-		ThumbnailUrl: "https://example.com/sushi-thumbnail.jpg",
+		Url:          "http://localhost:9000/data/video/how-to-make-sushi",
+		ThumbnailUrl: "http://localhost:9000/data/thumbnail/sushi-thumbnail.jpg",
 		Tags: []models.Tag{
 			{
 				ID:          "74FF4BBA-18A5-4ABC-9164-4987021D411F",
@@ -26,7 +26,7 @@ var VideoTestData = []models.Video{
 		ID:           "09876-54321-09876-54321",
 		Title:        "Hiking in the Mountains",
 		TitleReading: "Hiking in the Mountains",
-		Url:          "https://example.com/hiking-in-the-mountains",
-		ThumbnailUrl: "https://example.com/hiking-thumbnail.jpg",
+		Url:          "http://localhost:9000/data/video/hiking-in-the-mountains",
+		ThumbnailUrl: "http://localhost:9000/data/thumbnail/hiking-thumbnail.jpg",
 	},
 }

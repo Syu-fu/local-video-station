@@ -51,6 +51,9 @@ func setup() error {
 		return err
 	}
 
+	os.Setenv("IPADDRESS", "localhost")
+	os.Setenv("MINIO_PORT", "9000")
+
 	return nil
 }
 
