@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"database/sql"
+	"os"
 
 	"api/models"
 )
@@ -37,6 +38,9 @@ func SelectVideoList(db *sql.DB, page int) ([]models.Video, error) {
 		if err := rows.Scan(&video.ID, &video.Title, &video.TitleReading, &video.Url, &video.ThumbnailUrl); err != nil {
 			return nil, err
 		}
+
+		video.Url = "http://" + os.Getenv("IPADDRESS") + ":" + os.Getenv("MINIO_PORT") + "/data/" + video.Url
+		video.ThumbnailUrl = "http://" + os.Getenv("IPADDRESS") + ":" + os.Getenv("MINIO_PORT") + "/data/" + video.ThumbnailUrl
 
 		videoArray = append(videoArray, video)
 	}
@@ -80,6 +84,24 @@ func SelectVideoDetail(db *sql.DB, id string) (models.Video, error) {
 	var video models.Video
 
 	if err := row.Scan(&video.ID, &video.Title, &video.TitleReading, &video.Url, &video.ThumbnailUrl); err != nil {
+		return models.Video{}, err
+	}
+
+	video.Url = "http://" + os.Getenv("IPADDRESS") + ":" + os.Getenv("MINIO_PORT") + "/data/" + video.Url
+	video.ThumbnailUrl = "http://" + os.Getenv("IPADDRESS") + ":" + os.Getenv("MINIO_PORT") + "/data/" + video.ThumbnailUrl
+
+	return video, nil
+}
+
+func InsertVideo(db *sql.DB, video models.Video) (models.Video, error) {
+	const sqlStr = `
+	insert into video (id, title, title_reading, url, thumbnail_url) values
+	(?, ?, ?, ?, ?)
+	;
+	`
+
+	_, err := db.Exec(sqlStr, video.ID, video.Title, video.TitleReading, video.Url, video.ThumbnailUrl)
+	if err != nil {
 		return models.Video{}, err
 	}
 

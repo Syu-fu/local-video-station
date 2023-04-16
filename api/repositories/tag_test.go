@@ -58,3 +58,16 @@ func TestInsertTag(t *testing.T) {
 		_, _ = testDB.Exec(sqlStr, tag.Name, tag.NameReading)
 	})
 }
+
+func TestSelectAllTags(t *testing.T) {
+	expectedNum := len(testdata.TagTestData2)
+
+	got, err := repositories.SelectAllTags(testDB)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if num := len(got); num != expectedNum {
+		t.Errorf("want %d but got %d tags\n", expectedNum, num)
+	}
+}

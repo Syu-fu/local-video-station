@@ -1,6 +1,8 @@
 package testdata
 
 import (
+	"io"
+
 	"api/apperrors"
 	"api/models"
 )
@@ -30,4 +32,8 @@ func (s *serviceMock) GetVideoService(id string) (models.Video, error) {
 	err = apperrors.NAData.Wrap(err, "no data")
 
 	return models.Video{}, err
+}
+
+func (s *serviceMock) PostVideoService(video models.Video, thumbnailFile io.Reader, videoFile io.Reader) (models.Video, error) {
+	return models.Video{}, nil
 }

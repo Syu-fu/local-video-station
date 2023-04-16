@@ -11,6 +11,8 @@ import (
 	"api/api"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 )
 
 var (
@@ -20,6 +22,8 @@ var (
 	dbDatabase    = "local_video_station"
 	timeoutSecond = 30
 	dbConn        = fmt.Sprintf("%s:%s@tcp(db)/%s?parseTime=true", dbUser, dbPassword, dbDatabase)
+	endpoint      = "minio:" + os.Getenv("MINIO_PORT")
+	useSSL        = false
 )
 
 func main() {
@@ -31,7 +35,18 @@ func main() {
 		return
 	}
 
-	r := api.NewRouter(db)
+	mc, err := minio.New(endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4("", "", ""),
+		Secure: useSSL,
+	})
+	if err != nil {
+		log.Fatalln(err)
+		log.Println("fail to connect MinIO")
+
+		return
+	}
+
+	r := api.NewRouter(db, mc)
 
 	log.Printf("server start at port %s", apiPort)
 	srv := &http.Server{

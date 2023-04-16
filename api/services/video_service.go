@@ -1,8 +1,10 @@
 package services
 
 import (
+	"context"
 	"database/sql"
 	"errors"
+	"io"
 	"sync"
 
 	"api/apperrors"
@@ -88,7 +90,36 @@ func (s *MyAppService) GetVideoService(videoID string) (models.Video, error) {
 		return models.Video{}, tagGetErr
 	}
 
-	video.Tags = append(video.Tags, tagList...)
+	video.Tags = tagList
 
 	return video, nil
+}
+
+func (s *MyAppService) PostVideoService(video models.Video, thumbnailFile io.Reader, videoFile io.Reader) (models.Video, error) {
+	newVideo, err := repositories.InsertVideo(s.db, video)
+	if err != nil {
+		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
+
+		return models.Video{}, err
+	}
+
+	_, err = repositories.InsertVideoTag(s.db, video)
+	if err != nil {
+		err = apperrors.InsertDataFailed.Wrap(err, "fail to record data")
+
+		return models.Video{}, err
+	}
+
+	ctx := context.Background()
+	bucketName := "data"
+
+	if err := repositories.SaveFile(s.mc, ctx, bucketName, video.ThumbnailUrl, thumbnailFile, -1, "image/jpeg"); err != nil {
+		return models.Video{}, err
+	}
+
+	if err := repositories.SaveFile(s.mc, ctx, bucketName, video.Url, videoFile, -1, "video/mp4"); err != nil {
+		return models.Video{}, err
+	}
+
+	return newVideo, nil
 }

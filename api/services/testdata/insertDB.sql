@@ -1,7 +1,7 @@
 INSERT INTO video (id, title, title_reading, url, thumbnail_url)
 VALUES
-    ('3C6FC606-3DC8-4EE5-AFC0-D6C20DE47AE4', 'How to Make Sushi', 'How to Make Sushi', 'https://example.com/how-to-make-sushi', 'https://example.com/sushi-thumbnail.jpg'),
-    ('042243E2-9C87-4667-854A-AA1D6C8F64B8', 'Hiking in the Mountains', 'Hiking in the Mountains', 'https://example.com/hiking-in-the-mountains', 'https://example.com/hiking-thumbnail.jpg');
+    ('3C6FC606-3DC8-4EE5-AFC0-D6C20DE47AE4', 'How to Make Sushi', 'How to Make Sushi', 'video/how-to-make-sushi', 'thumbnail/sushi-thumbnail.jpg'),
+    ('042243E2-9C87-4667-854A-AA1D6C8F64B8', 'Hiking in the Mountains', 'Hiking in the Mountains', 'video/hiking-in-the-mountains', 'thumbnail/hiking-thumbnail.jpg');
 
 INSERT INTO tag (id, name, name_reading)
 VALUES

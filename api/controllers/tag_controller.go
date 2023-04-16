@@ -36,3 +36,12 @@ func (c *TagController) PostTagHandler(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, newTag)
 }
+
+func (c *TagController) TagListHandler(ctx echo.Context) error {
+	tagList, err := c.service.GetTagListService()
+	if err != nil {
+		return apperrors.ErrorHandler(ctx, err)
+	}
+
+	return ctx.JSON(http.StatusOK, tagList)
+}

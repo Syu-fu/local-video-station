@@ -1,14 +1,14 @@
 import { type FC } from 'react';
 import DrawerMenuComponent from '../components/DrawerMenuComponent';
-import TagCreateForm from '../components/TagCreateForm';
+import VideoCreateForm from '../components/VideoCreateForm';
 
-const TagCreatePage: FC = () => {
+const VideoCreatePage: FC = () => {
   return (
     <>
       <DrawerMenuComponent />
-      <TagCreateForm />
+      <VideoCreateForm />
     </>
   );
 };
 
-export default TagCreatePage;
+export default VideoCreatePage;

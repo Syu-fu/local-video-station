@@ -2,6 +2,7 @@ import { type FC, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import getVideoCount from '../api/getVideoCount';
 import getVideoList from '../api/getVideoList';
+import DrawerMenuComponent from '../components/DrawerMenuComponent';
 import PageNationComponent from '../components/PaginationComponent';
 import VideoListComponent from '../components/VideoListComponent';
 import type Video from '../types/video';
@@ -35,6 +36,7 @@ const VideoListPage: FC = () => {
 
   return (
     <>
+      <DrawerMenuComponent />
       <VideoListComponent videos={videos} />
       <PageNationComponent pageCount={videoCount} currentPage={currentPage} />
     </>

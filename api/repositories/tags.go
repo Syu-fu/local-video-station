@@ -54,3 +54,34 @@ func InsertTag(db *sql.DB, tag models.Tag) (models.Tag, error) {
 
 	return tag, nil
 }
+
+func SelectAllTags(db *sql.DB) ([]models.Tag, error) {
+	const sqlStr = `
+		select id, name, name_reading
+		from tag
+		;
+	`
+
+	rows, err := db.Query(sqlStr)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	tagArray := make([]models.Tag, 0)
+
+	for rows.Next() {
+		var tag models.Tag
+		if err := rows.Scan(&tag.ID, &tag.Name, &tag.NameReading); err != nil {
+			return nil, err
+		}
+
+		tagArray = append(tagArray, tag)
+	}
+
+	return tagArray, nil
+}

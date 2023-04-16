@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import LabelIcon from '@mui/icons-material/Label';
-import { Chip, Typography } from '@mui/material';
+import { Chip, Typography, Box } from '@mui/material';
 import type Video from '../types/video';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 
 const VideoDetailComponent: FC<Props> = ({ video }) => {
   return (
-    <>
+    <Box sx={{ padding: '16px' }}>
       <Typography
         variant="h6"
         sx={{ fontWeight: 'bold', marginBottom: '10px' }}
@@ -26,7 +26,7 @@ const VideoDetailComponent: FC<Props> = ({ video }) => {
           />
         );
       })}
-    </>
+    </Box>
   );
 };
 
