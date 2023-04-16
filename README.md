@@ -3,10 +3,22 @@
 [![golangci-lint](https://github.com/Syu-fu/local-video-station/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/Syu-fu/local-video-station/actions/workflows/golangci-lint.yml)
 [![typescript-lint](https://github.com/Syu-fu/local-video-station/actions/workflows/typescript-lint.yml/badge.svg)](https://github.com/Syu-fu/local-video-station/actions/workflows/typescript-lint.yml)
 
-## Development Environment
+## How to use
 
-To start the development environment, run the following command on the shell:
-`make dev`
+1. Run the following command on the shell:
+
+```bash
+git clone https://github.com/Syu-fu/local-video-station.git
+```
+
+2. Set up the .env file.
+3. Run the following command on the shell:
+
+```bash
+make dev
+```
+
+4. Access <http://{IPADDRESS}:{FRONT_PORT}/list> from a Web browser.
 
 ## Dependencies
 
@@ -14,6 +26,11 @@ This program depends on the following:
 
 - Docker compose version 3 or higher
 - make
+
+## Development Environment
+
+To start the development environment, run the following command on the shell:
+`make dev`
 
 # Frontend
 
