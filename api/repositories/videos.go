@@ -3,6 +3,7 @@ package repositories
 import (
 	"database/sql"
 	"os"
+	"strings"
 
 	"api/models"
 )
@@ -106,4 +107,49 @@ func InsertVideo(db *sql.DB, video models.Video) (models.Video, error) {
 	}
 
 	return video, nil
+}
+
+func SelectVideoListByTags(db *sql.DB, tagIDs string, page int) ([]models.Video, error) {
+	tags := strings.Split(tagIDs, ",")
+	numTags := len(tags)
+
+	sqlStr := `
+		SELECT v.id, v.title, v.title_reading, v.url, v.thumbnail_url
+		FROM video v
+		JOIN video_tag vt ON v.id = vt.video_id
+		WHERE vt.tag_id IN (?)
+		GROUP BY v.id
+		HAVING COUNT(DISTINCT vt.tag_id) = ?
+		ORDER BY v.updated_at
+		LIMIT ? OFFSET ?;
+	`
+
+	offset := (page - 1) * videoNumPerPage
+
+	rows, err := db.Query(sqlStr, tagIDs, numTags, videoNumPerPage, offset)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, rows.Err()
+	}
+
+	defer rows.Close()
+
+	videoArray := make([]models.Video, 0)
+
+	for rows.Next() {
+		var video models.Video
+		if err := rows.Scan(&video.ID, &video.Title, &video.TitleReading, &video.Url, &video.ThumbnailUrl); err != nil {
+			return nil, err
+		}
+
+		video.Url = "http://" + os.Getenv("IPADDRESS") + ":" + os.Getenv("MINIO_PORT") + "/data/" + video.Url
+		video.ThumbnailUrl = "http://" + os.Getenv("IPADDRESS") + ":" + os.Getenv("MINIO_PORT") + "/data/" + video.ThumbnailUrl
+
+		videoArray = append(videoArray, video)
+	}
+
+	return videoArray, nil
 }
