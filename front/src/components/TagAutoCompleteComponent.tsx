@@ -13,12 +13,16 @@ const TagAutocompleteComponent: FC<TagAutocompleteProps> = ({
   selectedTags,
   onChange,
 }) => {
+  const unselectedTags = tags.filter(
+    (tag) => !selectedTags.some((selectedTag) => selectedTag.name === tag.name)
+  );
+
   return (
     <Autocomplete
       multiple
       fullWidth
       sx={{ marginTop: '8px', width: '100%' }}
-      options={tags}
+      options={unselectedTags}
       value={selectedTags}
       getOptionLabel={(option) => option.name}
       filterOptions={(options, params) => {
