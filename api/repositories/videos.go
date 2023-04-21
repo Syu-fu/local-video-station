@@ -153,3 +153,29 @@ func SelectVideoListByTags(db *sql.DB, tagIDs string, page int) ([]models.Video,
 
 	return videoArray, nil
 }
+
+func SelectVideoCountByTags(db *sql.DB, tagIDs string) (int, error) {
+	tags := strings.Split(tagIDs, ",")
+	numTags := len(tags)
+
+	sqlStr := `
+		select count(1)
+		from video v
+		join video_tag vt on v.id = vt.video_id
+		where vt.tag_id in (?)
+		group by v.id
+		having count(distinct vt.tag_id) = ?
+	`
+
+	row := db.QueryRow(sqlStr, tagIDs, numTags)
+	if err := row.Err(); err != nil {
+		return 0, row.Err()
+	}
+
+	var rowCount int
+	if err := row.Scan(&rowCount); err != nil {
+		return 0, err
+	}
+
+	return rowCount, nil
+}
