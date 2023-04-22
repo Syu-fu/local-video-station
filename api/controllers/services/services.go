@@ -12,6 +12,7 @@ type VideoServicer interface {
 	GetVideoService(videoID string) (models.Video, error)
 	PostVideoService(video models.Video, thumbnailFile io.Reader, videoFile io.Reader) (models.Video, error)
 	GetVideoListByTagsService(tagIDs string, page int) ([]models.Video, error)
+	GetVideoCountByTagsService(tagIDs string) (int, error)
 }
 
 type TagServicer interface {

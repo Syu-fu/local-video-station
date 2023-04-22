@@ -49,7 +49,18 @@ func (c *VideoController) VideoListHandler(ctx echo.Context) error {
 }
 
 func (c *VideoController) VideoCountHandler(ctx echo.Context) error {
-	count, err := c.service.GetVideoCountService()
+	tagIDs := ctx.QueryParam("tags")
+
+	var count int
+
+	var err error
+
+	if tagIDs != "" {
+		count, err = c.service.GetVideoCountByTagsService(tagIDs)
+	} else {
+		count, err = c.service.GetVideoCountService()
+	}
+
 	if err != nil {
 		return apperrors.ErrorHandler(ctx, err)
 	}
