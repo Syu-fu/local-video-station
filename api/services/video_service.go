@@ -140,3 +140,14 @@ func (s *MyAppService) GetVideoListByTagsService(tagIDs string, page int) ([]mod
 
 	return videoList, nil
 }
+
+func (s *MyAppService) GetVideoCountByTagsService(tagIDs string) (int, error) {
+	videoCount, err := repositories.SelectVideoCountByTags(s.db, tagIDs)
+	if err != nil {
+		err = apperrors.GetDataFailed.Wrap(err, "fail to get data")
+
+		return 0, err
+	}
+
+	return videoCount, nil
+}
