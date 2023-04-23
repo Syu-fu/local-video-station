@@ -1,5 +1,5 @@
 import { type FC, useState, useCallback, useEffect } from 'react';
-import { styled } from '@mui/system';
+import { Box } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import getTagList from '../api/getTagList';
 import getVideoCountByTags from '../api/getVideoCountByTags';
@@ -10,7 +10,6 @@ import TagAutocompleteComponent from '../components/TagAutoCompleteComponent';
 import VideoListComponent from '../components/VideoListComponent';
 import type Tag from '../types/tag';
 import type Video from '../types/video';
-import { Box } from '@mui/material';
 
 const SearchVideoByTagsPage: FC = () => {
   const [searchParams] = useSearchParams();
