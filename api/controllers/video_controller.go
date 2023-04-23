@@ -3,7 +3,6 @@ package controllers
 import (
 	"bufio"
 	"encoding/json"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -32,7 +31,16 @@ func (c *VideoController) VideoListHandler(ctx echo.Context) error {
 		return apperrors.ErrorHandler(ctx, err)
 	}
 
-	videoList, err := c.service.GetVideoListService(page)
+	tagIDs := ctx.QueryParam("tags")
+
+	var videoList []models.Video
+
+	if tagIDs != "" {
+		videoList, err = c.service.GetVideoListByTagsService(tagIDs, page)
+	} else {
+		videoList, err = c.service.GetVideoListService(page)
+	}
+
 	if err != nil {
 		return apperrors.ErrorHandler(ctx, err)
 	}
@@ -41,7 +49,18 @@ func (c *VideoController) VideoListHandler(ctx echo.Context) error {
 }
 
 func (c *VideoController) VideoCountHandler(ctx echo.Context) error {
-	count, err := c.service.GetVideoCountService()
+	tagIDs := ctx.QueryParam("tags")
+
+	var count int
+
+	var err error
+
+	if tagIDs != "" {
+		count, err = c.service.GetVideoCountByTagsService(tagIDs)
+	} else {
+		count, err = c.service.GetVideoCountService()
+	}
+
 	if err != nil {
 		return apperrors.ErrorHandler(ctx, err)
 	}
@@ -82,10 +101,6 @@ func (c *VideoController) PostVideoHandler(ctx echo.Context) error {
 	defer videoFile.Close()
 
 	videoReader := bufio.NewReader(videoFile)
-
-	log.Println(ctx.Request().FormValue("title"))
-	log.Println(ctx.Request().FormValue("titleReading"))
-	log.Println(ctx.Request().FormValue("tags"))
 
 	video := new(models.Video)
 
