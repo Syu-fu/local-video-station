@@ -1,4 +1,5 @@
 import { type FC, useState, Fragment } from 'react';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ListIcon from '@mui/icons-material/List';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -41,6 +42,12 @@ const menuGroups: MenuGroup[] = [
         label: 'List',
         icon: <ListIcon />,
         link: '/list',
+      },
+      {
+        id: 'tag-search',
+        label: 'TagSearch',
+        icon: <BookmarkBorderIcon />,
+        link: '/video/tagged',
       },
     ],
   },
@@ -112,20 +119,20 @@ const DrawerMenu: FC = () => {
             <Fragment key={group.id}>
               <ListSubheader>{group.label}</ListSubheader>
               {group.items.map((item) => {
-                  return (
-                      <ButtonBase
-                          key={item.id}
-                          component={Link}
-                          to={item.link}
-                          onClick={toggleDrawer}
-                          sx={{ width: "100%" }}
-                      >
-                          <ListItem>
-                              <ListItemIcon>{item.icon}</ListItemIcon>
-                              <ListItemText primary={item.label} />
-                          </ListItem>
-                      </ButtonBase>
-                  );
+                return (
+                  <ButtonBase
+                    key={item.id}
+                    component={Link}
+                    to={item.link}
+                    onClick={toggleDrawer}
+                    sx={{ width: '100%' }}
+                  >
+                    <ListItem>
+                      <ListItemIcon>{item.icon}</ListItemIcon>
+                      <ListItemText primary={item.label} />
+                    </ListItem>
+                  </ButtonBase>
+                );
               })}
             </Fragment>
           ))}
