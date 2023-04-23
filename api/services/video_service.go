@@ -123,3 +123,31 @@ func (s *MyAppService) PostVideoService(video models.Video, thumbnailFile io.Rea
 
 	return newVideo, nil
 }
+
+func (s *MyAppService) GetVideoListByTagsService(tagIDs string, page int) ([]models.Video, error) {
+	videoList, err := repositories.SelectVideoListByTags(s.db, tagIDs, page)
+	if err != nil {
+		err = apperrors.GetDataFailed.Wrap(err, "fail to get data")
+
+		return nil, err
+	}
+
+	if len(videoList) == 0 {
+		err := apperrors.NAData.Wrap(ErrNoData, "no data")
+
+		return nil, err
+	}
+
+	return videoList, nil
+}
+
+func (s *MyAppService) GetVideoCountByTagsService(tagIDs string) (int, error) {
+	videoCount, err := repositories.SelectVideoCountByTags(s.db, tagIDs)
+	if err != nil {
+		err = apperrors.GetDataFailed.Wrap(err, "fail to get data")
+
+		return 0, err
+	}
+
+	return videoCount, nil
+}

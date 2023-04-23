@@ -23,8 +23,8 @@ const VideoListItemComponent: FC<Props> = ({ video }) => {
   );
 };
 
-const StyledCard = styled(Card)(({ theme }) => ({
-  display: 'inline-flex',
+const StyledCard = styled(Card)(() => ({
+  display: 'flex',
   flexDirection: 'column',
   width: '100%',
   height: 'auto',
@@ -32,20 +32,15 @@ const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: '8px',
   overflow: 'hidden',
   boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
-  [theme.breakpoints.up('sm')]: {
-    flexDirection: 'row',
-  },
+  flexShrink: 0,
+  flexGrow: 1,
 }));
 
-const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
+const StyledCardMedia = styled(CardMedia)(() => ({
   width: '100%',
   height: 0,
   paddingTop: '56.25%',
-  [theme.breakpoints.up('sm')]: {
-    width: 120,
-    height: 'auto',
-    paddingTop: 0,
-  },
+  flexShrink: 0,
 }));
 
 export default VideoListItemComponent;
