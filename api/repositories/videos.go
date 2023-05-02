@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"database/sql"
+	"fmt"
 	"os"
 	"strings"
 
@@ -113,20 +114,33 @@ func SelectVideoListByTags(db *sql.DB, tagIDs string, page int) ([]models.Video,
 	tags := strings.Split(tagIDs, ",")
 	numTags := len(tags)
 
-	sqlStr := `
+	placeholders := make([]string, 0, numTags)
+	for range tags {
+		placeholders = append(placeholders, "?")
+	}
+
+	// nolint:gosec // Safe SQL formatting for dynamic IN clause
+	sqlStr := fmt.Sprintf(`
 		SELECT v.id, v.title, v.title_reading, v.url, v.thumbnail_url
 		FROM video v
 		JOIN video_tag vt ON v.id = vt.video_id
-		WHERE vt.tag_id IN (?)
+		WHERE vt.tag_id IN (%s)
 		GROUP BY v.id
 		HAVING COUNT(DISTINCT vt.tag_id) = ?
 		ORDER BY v.updated_at
 		LIMIT ? OFFSET ?;
-	`
+	`, strings.Join(placeholders, ","))
 
 	offset := (page - 1) * videoNumPerPage
 
-	rows, err := db.Query(sqlStr, tagIDs, numTags, videoNumPerPage, offset)
+	queryParams := []interface{}{}
+	for _, tag := range tags {
+		queryParams = append(queryParams, tag)
+	}
+
+	queryParams = append(queryParams, numTags, videoNumPerPage, offset)
+
+	rows, err := db.Query(sqlStr, queryParams...)
 	if err != nil {
 		return nil, err
 	}
@@ -158,16 +172,29 @@ func SelectVideoCountByTags(db *sql.DB, tagIDs string) (int, error) {
 	tags := strings.Split(tagIDs, ",")
 	numTags := len(tags)
 
-	sqlStr := `
-		select count(1)
-		from video v
-		join video_tag vt on v.id = vt.video_id
-		where vt.tag_id in (?)
-		group by v.id
-		having count(distinct vt.tag_id) = ?
-	`
+	placeholders := make([]string, 0, numTags)
+	for range tags {
+		placeholders = append(placeholders, "?")
+	}
 
-	row := db.QueryRow(sqlStr, tagIDs, numTags)
+	// nolint:gosec // Safe SQL formatting for dynamic IN clause
+	sqlStr := fmt.Sprintf(`
+		SELECT COUNT(DISTINCT v.id)
+		FROM video v
+		JOIN video_tag vt ON v.id = vt.video_id
+		WHERE vt.tag_id IN (%s)
+		GROUP BY v.id
+		HAVING COUNT(DISTINCT vt.tag_id) = ?;
+	`, strings.Join(placeholders, ","))
+
+	queryParams := []interface{}{}
+	for _, tag := range tags {
+		queryParams = append(queryParams, tag)
+	}
+
+	queryParams = append(queryParams, numTags)
+
+	row := db.QueryRow(sqlStr, queryParams...)
 	if err := row.Err(); err != nil {
 		return 0, row.Err()
 	}
