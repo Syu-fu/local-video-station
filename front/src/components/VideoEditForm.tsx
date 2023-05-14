@@ -16,8 +16,8 @@ import type Video from '../types/video';
 import type VideoFormInputs from '../types/videoFormInputs';
 import ConfirmationDialogComponent from './ConfirmationDialogComponent';
 import NotificationComponent from './NotificationComponent';
-import TagAutocompleteComponent from './TagAutoCompleteComponent';
 import ProgressBarComponent from './ProgressBarComponent';
+import TagAutocompleteComponent from './TagAutoCompleteComponent';
 
 const formStyle = css`
   display: flex;
