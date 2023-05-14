@@ -78,8 +78,8 @@ const VideoCreateForm: FC = () => {
         }
       } finally {
         reset();
-    setThumbnailKey(thumbnailKey + 1);
-        setVideoKey(videoKey + 1); 
+        setThumbnailKey(thumbnailKey + 1);
+        setVideoKey(videoKey + 1);
         setNotificationOpen(true);
       }
     })();
@@ -149,7 +149,7 @@ const VideoCreateForm: FC = () => {
             thumbnail
           </InputLabel>
           <Input
-key={thumbnailKey}
+            key={thumbnailKey}
             id="thumbnail-upload"
             type="file"
             inputProps={{ accept: 'image/*' }}
@@ -162,7 +162,7 @@ key={thumbnailKey}
             video
           </InputLabel>
           <Input
-key={videoKey}
+            key={videoKey}
             id="video-upload"
             type="file"
             inputProps={{ accept: 'video/*' }}
