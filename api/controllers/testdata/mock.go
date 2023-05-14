@@ -45,3 +45,7 @@ func (s *serviceMock) GetVideoListByTagsService(tagIDs string, page int) ([]mode
 func (s *serviceMock) GetVideoCountByTagsService(tagIDs string) (int, error) {
 	return 0, nil
 }
+
+func (s *serviceMock) PutVideoService(video models.Video, thumbnailFile io.Reader, videoFile io.Reader) (models.Video, error) {
+	return models.Video{}, nil
+}

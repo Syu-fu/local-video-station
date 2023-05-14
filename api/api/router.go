@@ -21,6 +21,7 @@ func NewRouter(db *sql.DB, mc *minio.Client) *echo.Echo {
 	e.GET("/video/count", aCon.VideoCountHandler)
 	e.GET("/video/:id", aCon.VideoDetailHandler)
 	e.POST("/video", aCon.PostVideoHandler)
+	e.PUT("/video", aCon.PutVideoHandler)
 
 	e.GET("/tag/list", tCon.TagListHandler)
 	e.POST("/tag", tCon.PostTagHandler)

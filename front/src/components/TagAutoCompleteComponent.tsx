@@ -21,10 +21,14 @@ const TagAutocompleteComponent: FC<TagAutocompleteProps> = ({
     <Autocomplete
       multiple
       fullWidth
-      sx={{ marginTop: '8px', width: '100%' }}
+      sx={{
+        marginTop: '8px',
+        width: '100%',
+      }}
       options={unselectedTags}
       value={selectedTags}
       getOptionLabel={(option) => option.name}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       filterOptions={(options, params) => {
         const filtered = options.filter(
           (option) =>
@@ -42,7 +46,7 @@ const TagAutocompleteComponent: FC<TagAutocompleteProps> = ({
       onChange={(_, data) => {
         onChange(data);
       }}
-      renderInput={(params) => <TextField {...params} label="tag" />}
+      renderInput={(params) => <TextField {...params} label="tag" fullWidth />}
     />
   );
 };

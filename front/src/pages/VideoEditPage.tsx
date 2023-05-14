@@ -1,12 +1,11 @@
-import { type FC, useState, useEffect } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { useParams } from 'react-router-dom';
 import getVideoDetail from '../api/getVideoDetail';
 import DrawerMenuComponent from '../components/DrawerMenuComponent';
-import VideoDetailComponent from '../components/VideoDetailComponent';
-import VideoPlayerComponent from '../components/VideoPlayerComponent';
+import VideoEditForm from '../components/VideoEditForm';
 import type Video from '../types/video';
 
-const VideoPlayerPage: FC = () => {
+const VideoEditPage: FC = () => {
   type Param = {
     id?: string;
   };
@@ -29,12 +28,9 @@ const VideoPlayerPage: FC = () => {
   return (
     <>
       <DrawerMenuComponent />
-      {video !== undefined && (
-        <VideoPlayerComponent url={video.url} thumbnail={video.thumbnailUrl} />
-      )}
-      {video !== undefined && <VideoDetailComponent video={video} />}
+      {video !== undefined && <VideoEditForm video={video} />}
     </>
   );
 };
 
-export default VideoPlayerPage;
+export default VideoEditPage;
