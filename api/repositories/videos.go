@@ -206,3 +206,18 @@ func SelectVideoCountByTags(db *sql.DB, tagIDs string) (int, error) {
 
 	return rowCount, nil
 }
+
+func UpdateVideo(db *sql.DB, video models.Video) (models.Video, error) {
+	const sqlStr = `
+	update video set id = ?, title = ?, title_reading = ?
+	where id = ?
+	;
+	`
+
+	_, err := db.Exec(sqlStr, video.ID, video.Title, video.TitleReading, video.ID)
+	if err != nil {
+		return models.Video{}, err
+	}
+
+	return video, nil
+}
