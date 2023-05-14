@@ -68,7 +68,7 @@ const SearchVideoByTagsPage: FC = () => {
   }, [selectedTags, currentPage, fetchVideos]);
 
   return (
-    <Box display="flex" flexDirection="column" width="100%">
+    <Box display="flex" flexDirection="column" minHeight="100vh">
       <DrawerMenuComponent />
       <Box
         sx={{
@@ -76,12 +76,17 @@ const SearchVideoByTagsPage: FC = () => {
           top: 0,
           backgroundColor: 'background.default',
           zIndex: 2,
-          minHeight: '48px',
           width: '100%',
           padding: '8px',
         }}
       >
-        <Box mx="auto" minWidth={{ xs: '100%', sm: '80%' }} width="100%">
+        <Box
+          mx="auto"
+          width="100%"
+          minHeight="48px"
+          display="flex"
+          alignItems="center"
+        >
           <TagAutocompleteComponent
             tags={tags}
             selectedTags={selectedTags}
@@ -94,6 +99,7 @@ const SearchVideoByTagsPage: FC = () => {
         display="flex"
         flexDirection="column"
         alignItems="center"
+        width="100vw"
       >
         {noResults ? (
           <p style={{ textAlign: 'center', marginTop: '16px' }}>
