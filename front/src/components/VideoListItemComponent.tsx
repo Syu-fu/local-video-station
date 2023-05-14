@@ -27,7 +27,7 @@ const StyledCard = styled(Card)(() => ({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  height: 'auto',
+  height: '100%',
   margin: '8px',
   borderRadius: '8px',
   overflow: 'hidden',
