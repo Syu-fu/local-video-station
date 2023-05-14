@@ -29,7 +29,9 @@ const VideoPlayerPage: FC = () => {
   return (
     <>
       <DrawerMenuComponent />
-      {video !== undefined && <VideoPlayerComponent url={video.url} />}
+      {video !== undefined && (
+        <VideoPlayerComponent url={video.url} thumbnail={video.thumbnailUrl} />
+      )}
       {video !== undefined && <VideoDetailComponent video={video} />}
     </>
   );

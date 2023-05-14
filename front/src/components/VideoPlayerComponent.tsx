@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player';
 
 interface Props {
   url: string;
+  thumbnail: string;
 }
 
 const playerStyles = css`
@@ -11,8 +12,15 @@ const playerStyles = css`
   height: auto !important;
 `;
 
-const VideoPlayerComponent: FC<Props> = ({ url }) => {
-  return <ReactPlayer url={url} css={playerStyles} controls={true} />;
+const VideoPlayerComponent: FC<Props> = ({ url, thumbnail }) => {
+  return (
+    <ReactPlayer
+      url={url}
+      css={playerStyles}
+      light={<img src={thumbnail} alt="Thumbnail" width="100%" />}
+      controls={true}
+    />
+  );
 };
 
 export default VideoPlayerComponent;
