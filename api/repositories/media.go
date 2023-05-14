@@ -10,7 +10,9 @@ import (
 
 func SaveFile(mc *minio.Client, ctx context.Context, bucketName string, fileName string, file io.Reader, fileSize int64, contentType string) error {
 	_, err := mc.PutObject(ctx, bucketName, fileName, file, fileSize, minio.PutObjectOptions{ContentType: contentType})
-	log.Print(err)
+	if err != nil {
+		log.Print(err)
+	}
 
 	return err
 }
