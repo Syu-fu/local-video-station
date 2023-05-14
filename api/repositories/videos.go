@@ -179,12 +179,16 @@ func SelectVideoCountByTags(db *sql.DB, tagIDs string) (int, error) {
 
 	// nolint:gosec // Safe SQL formatting for dynamic IN clause
 	sqlStr := fmt.Sprintf(`
-		SELECT COUNT(DISTINCT v.id)
+		SELECT COUNT(*)
+		FROM (
+		SELECT v.id
 		FROM video v
 		JOIN video_tag vt ON v.id = vt.video_id
 		WHERE vt.tag_id IN (%s)
 		GROUP BY v.id
-		HAVING COUNT(DISTINCT vt.tag_id) = ?;
+		HAVING COUNT(DISTINCT vt.tag_id) = ?
+		) as filtered_videos
+		;
 	`, strings.Join(placeholders, ","))
 
 	queryParams := []interface{}{}
