@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SearchVideoByTagsPage from '../pages/SearchVideoByTagsPage';
 import TagCreatePage from '../pages/TagCreatePage';
 import VideoCreatePage from '../pages/VideoCreatePage';
+import VideoEditPage from '../pages/VideoEditPage';
 import VideoPlayerPage from '../pages/VideoPlayerPage';
 import VideoListPage from '../pages/list';
 
@@ -15,6 +16,9 @@ const AppRouter: FC = () => {
         <Route path="video">
           <Route path="tagged" element={<SearchVideoByTagsPage />} />
           <Route path="create" element={<VideoCreatePage />} />
+          <Route path="edit">
+            <Route path=":id" element={<VideoEditPage />} />
+          </Route>
           <Route path=":id" element={<VideoPlayerPage />} />
         </Route>
         <Route path="/tag/create" element={<TagCreatePage />} />

@@ -10,8 +10,9 @@ import {
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import getTagList from '../api/getTagList';
-import postVideoDetail from '../api/postVideoDetail';
+import putVideoDetail from '../api/putVideoDetail';
 import type Tag from '../types/tag';
+import type Video from '../types/video';
 import type VideoFormInputs from '../types/videoFormInputs';
 import ConfirmationDialogComponent from './ConfirmationDialogComponent';
 import NotificationComponent from './NotificationComponent';
@@ -33,7 +34,11 @@ const textFieldStyle = css`
   width: 100%;
 `;
 
-const VideoCreateForm: FC = () => {
+type VideoEditFormProps = {
+  video: Video;
+};
+
+const VideoEditForm: FC<VideoEditFormProps> = ({ video }) => {
   const { control, handleSubmit, setValue, reset } = useForm<VideoFormInputs>();
   const [tags, setTags] = useState<Tag[]>([]);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
@@ -55,11 +60,20 @@ const VideoCreateForm: FC = () => {
       });
   }, []);
 
+  useEffect(() => {
+    reset({
+      id: video.id,
+      title: video.title,
+      titleReading: video.titleReading,
+      tags: video.tags,
+    });
+  }, [video, reset]);
+
   const handleFormSubmit = () => {
     void handleSubmit(async (data: VideoFormInputs) => {
       try {
         handleCloseConfirmation();
-        const video = await postVideoDetail(data);
+        const video = await putVideoDetail(data);
         setAlertSeverity('success');
         const tagNames = data.tags.map((tag) => tag.name).join(', ');
         setAlertMessages([
@@ -77,7 +91,6 @@ const VideoCreateForm: FC = () => {
           setAlertMessages(['An unknown error occurred.']);
         }
       } finally {
-        reset();
         setThumbnailKey(thumbnailKey + 1);
         setVideoKey(videoKey + 1);
         setNotificationOpen(true);
@@ -88,14 +101,14 @@ const VideoCreateForm: FC = () => {
   const handleThumbnailUpload = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (event.target.files !== null) {
+    if (event.target.files != null && event.target.files.length > 0) {
       setValue('thumbnail', event.target.files[0]);
     }
   };
 
   const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files !== null) {
-      setValue('video', event.target.files[0]);
+    if (event.target.files != null && event.target.files.length > 0) {
+      setValue('thumbnail', event.target.files[0]);
     }
   };
 
@@ -118,6 +131,13 @@ const VideoCreateForm: FC = () => {
         encType="multipart/form-data"
         onSubmit={handleSubmit(handleFormSubmit)}
       >
+        <TextField
+          label="ID"
+          variant="outlined"
+          css={textFieldStyle}
+          disabled
+          defaultValue={video.id}
+        />
         <Controller
           name="title"
           control={control}
@@ -209,4 +229,4 @@ const VideoCreateForm: FC = () => {
   );
 };
 
-export default VideoCreateForm;
+export default VideoEditForm;

@@ -132,3 +132,48 @@ func (c *VideoController) PostVideoHandler(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, response)
 }
+
+func (c *VideoController) PutVideoHandler(ctx echo.Context) error {
+	thumbnailFile, _, err := ctx.Request().FormFile("thumbnail")
+
+	var thumbnailReader *bufio.Reader
+
+	if err == nil {
+		defer thumbnailFile.Close()
+
+		thumbnailReader = bufio.NewReader(thumbnailFile)
+	}
+
+	videoFile, _, err := ctx.Request().FormFile("video")
+
+	var videoReader *bufio.Reader
+
+	if err == nil {
+		defer videoFile.Close()
+
+		videoReader = bufio.NewReader(videoFile)
+	}
+
+	video := new(models.Video)
+
+	video.ID = ctx.Request().FormValue("id")
+	video.Title = ctx.Request().FormValue("title")
+	video.TitleReading = ctx.Request().FormValue("titleReading")
+	tagsStr := ctx.Request().FormValue("tags")
+
+	var tags []models.Tag
+	if err := json.Unmarshal([]byte(tagsStr), &tags); err != nil {
+		err = apperrors.ReqBodyDecodeFailed.Wrap(err, "bad request body")
+
+		return apperrors.ErrorHandler(ctx, err)
+	}
+
+	video.Tags = tags
+
+	response, err := c.service.PutVideoService(*video, thumbnailReader, videoReader)
+	if err != nil {
+		return apperrors.ErrorHandler(ctx, err)
+	}
+
+	return ctx.JSON(http.StatusOK, response)
+}
