@@ -16,6 +16,7 @@ import type Video from '../types/video';
 import type VideoFormInputs from '../types/videoFormInputs';
 import ConfirmationDialogComponent from './ConfirmationDialogComponent';
 import NotificationComponent from './NotificationComponent';
+import ProgressBarComponent from './ProgressBarComponent';
 import TagAutocompleteComponent from './TagAutoCompleteComponent';
 
 const formStyle = css`
@@ -43,6 +44,7 @@ const VideoEditForm: FC<VideoEditFormProps> = ({ video }) => {
   const [tags, setTags] = useState<Tag[]>([]);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error'>(
     'success'
   );
@@ -71,6 +73,7 @@ const VideoEditForm: FC<VideoEditFormProps> = ({ video }) => {
 
   const handleFormSubmit = () => {
     void handleSubmit(async (data: VideoFormInputs) => {
+      setIsSubmitting(true);
       try {
         handleCloseConfirmation();
         const video = await putVideoDetail(data);
@@ -94,6 +97,7 @@ const VideoEditForm: FC<VideoEditFormProps> = ({ video }) => {
         setThumbnailKey(thumbnailKey + 1);
         setVideoKey(videoKey + 1);
         setNotificationOpen(true);
+        setIsSubmitting(false);
       }
     })();
   };
@@ -126,6 +130,7 @@ const VideoEditForm: FC<VideoEditFormProps> = ({ video }) => {
 
   return (
     <div>
+      {isSubmitting && <ProgressBarComponent />}
       <form
         css={formStyle}
         encType="multipart/form-data"
