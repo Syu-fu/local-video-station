@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"io"
+	"os"
 	"sync"
 
 	"api/apperrors"
@@ -150,4 +151,42 @@ func (s *MyAppService) GetVideoCountByTagsService(tagIDs string) (int, error) {
 	}
 
 	return videoCount, nil
+}
+
+func (s *MyAppService) PutVideoService(video models.Video, thumbnailFile io.Reader, videoFile io.Reader) (models.Video, error) {
+	newVideo, err := repositories.UpdateVideo(s.db, video)
+	if err != nil {
+		return models.Video{}, err
+	}
+
+	_, err = repositories.DeleteVideoTagsByVideoID(s.db, video.ID)
+	if err != nil {
+		return models.Video{}, err
+	}
+
+	_, err = repositories.InsertVideoTag(s.db, video)
+	if err != nil {
+		return models.Video{}, err
+	}
+
+	ctx := context.Background()
+	bucketName := "data"
+
+	t, ok := thumbnailFile.(*os.File)
+
+	if ok && t != nil {
+		if err := repositories.SaveFile(s.mc, ctx, bucketName, video.ThumbnailUrl, thumbnailFile, -1, "image/jpeg"); err != nil {
+			return models.Video{}, err
+		}
+	}
+
+	v, ok := videoFile.(*os.File)
+
+	if ok && v != nil {
+		if err := repositories.SaveFile(s.mc, ctx, bucketName, video.Url, videoFile, -1, "video/mp4"); err != nil {
+			return models.Video{}, err
+		}
+	}
+
+	return newVideo, nil
 }
